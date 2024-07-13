@@ -8,5 +8,8 @@ import (
 
 func main() {
 	var envs map[string]string = gotenv.GetFromEnv()
-	fmt.Println(envs["NAME"])
+
+	for _, v := range envs {
+		fmt.Println(v)
+	}
 }
