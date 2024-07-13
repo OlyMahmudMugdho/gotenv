@@ -8,13 +8,8 @@ import (
 )
 
 func main() {
-	//var envs map[string]string = gotenv.GetFromEnv()
-
-	/* for _, v := range envs {
-		fmt.Println(v)
-	} */
-
-	gotenv.Load()
+	gotenv.Load(".another.env")
 	fmt.Println(os.Getenv("AGE"))
+	fmt.Println(os.Getenv("SOME"))
 
 }

@@ -11,13 +11,28 @@ import (
 	"github.com/OlyMahmudMugdho/gotenv/parser"
 )
 
-func GetFromEnv() map[string]string {
+func GetFromEnv(location ...string) (map[string]string, error) {
+
 	vars := make(map[string]string)
+	var data []byte
 
-	data, err := os.ReadFile(".env")
+	if len(location) == 0 {
+		d, err := os.ReadFile(".env")
 
-	if err != nil {
-		fmt.Println(err)
+		if err != nil {
+			log.Fatal(err)
+			return nil, err
+		}
+
+		data = d
+	} else {
+		d, err := os.ReadFile(location[0])
+
+		if err != nil {
+			log.Fatal(err)
+			return nil, err
+		}
+		data = d
 	}
 
 	scanner := bufio.NewScanner(strings.NewReader(string(data)))
@@ -40,7 +55,7 @@ func GetFromEnv() map[string]string {
 		vars[key] = value
 	}
 
-	return vars
+	return vars, nil
 }
 
 func SetAllVariables(vars map[string]string) {
@@ -54,7 +69,11 @@ func SetAllVariables(vars map[string]string) {
 	}
 }
 
-func Load() {
-	vars := GetFromEnv()
+func Load(locations ...string) error {
+	vars, err := GetFromEnv(locations...)
+	if err != nil {
+		return err
+	}
 	SetAllVariables(vars)
+	return nil
 }
