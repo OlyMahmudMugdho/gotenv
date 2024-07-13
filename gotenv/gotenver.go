@@ -53,3 +53,8 @@ func SetAllVariables(vars map[string]string) {
 		continue
 	}
 }
+
+func Load() {
+	vars := GetFromEnv()
+	SetAllVariables(vars)
+}
