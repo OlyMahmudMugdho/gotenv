@@ -3,6 +3,7 @@ package gotenv
 import (
 	"bufio"
 	"fmt"
+	"log"
 	"os"
 	"strings"
 
@@ -40,4 +41,15 @@ func GetFromEnv() map[string]string {
 	}
 
 	return vars
+}
+
+func SetAllVariables(vars map[string]string) {
+	for k, v := range vars {
+		var err error = os.Setenv(k, v)
+		if err != nil {
+			log.Fatal(err)
+			fmt.Printf("unable set variable %v=%v", k, v)
+		}
+		continue
+	}
 }
